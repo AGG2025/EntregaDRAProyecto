@@ -4,7 +4,7 @@ import {RouterLink, RouterOutlet} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 @Component({
   selector: 'app-root',
-  imports: [Home, RouterOutlet, RouterLink, HttpClientModule],
+  imports: [RouterOutlet, RouterLink, HttpClientModule],
   template: `
     <main>
       <header class="brand-name">

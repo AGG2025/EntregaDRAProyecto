@@ -8,13 +8,20 @@ import {Subscription} from 'rxjs';
   imports: [HousingLocation],
   template: `
     <section>
-      <form (submit)="filterResults(filter.value); $event.preventDefault()">
+      <form (submit)="filterResults(filter.value, filterBarrio.value); $event.preventDefault()">
         <input
           type="text"
           placeholder="Buscar por palabra clave"
           #filter
-          (input)="filterResults(filter.value)"
-          (keyup.enter)="filterResults(filter.value)"
+          (input)="filterResults(filter.value, filterBarrio.value)"
+          (keyup.enter)="filterResults(filter.value, filterBarrio.value)"
+        />
+        <input
+          type="text"
+          placeholder="Buscar por barrio"
+          #filterBarrio
+          (input)="filterResults(filter.value, filterBarrio.value)"
+          (keyup.enter)="filterResults(filter.value, filterBarrio.value)"
         />
         <input
           type="number"
@@ -22,7 +29,7 @@ import {Subscription} from 'rxjs';
           min="0"
           step="1"
           #beds
-          (input)="minBedrooms = sanitizeNumberInput(beds); filterResults(filter.value)"
+          (input)="minBedrooms = sanitizeNumberInput(beds); filterResults(filter.value, filterBarrio.value)"
         />
         <input
           type="number"
@@ -30,13 +37,13 @@ import {Subscription} from 'rxjs';
           min="0"
           step="1"
           #area
-          (input)="minArea = sanitizeNumberInput(area); filterResults(filter.value)"
+          (input)="minArea = sanitizeNumberInput(area); filterResults(filter.value, filterBarrio.value)"
         />
         <label class="discount-checkbox">
-          <input type="checkbox" #disc (change)="showDiscountedOnly = disc.checked; filterResults(filter.value)" />
+          <input type="checkbox" #disc (change)="showDiscountedOnly = disc.checked; filterResults(filter.value, filterBarrio.value)" />
           Sólo rebajados
         </label>
-        <button class="primary" type="button" (click)="filterResults(filter.value)">Buscar</button>
+        <button class="primary" type="button" (click)="filterResults(filter.value, filterBarrio.value)">Buscar</button>
       </form>
     </section>
     <section class="results">
@@ -61,6 +68,7 @@ export class Home implements OnInit, OnDestroy {
   isLoading = true;
 
   currentFilter = '';
+  currentBarrioFilter = '';
   minBedrooms?: number;
   minArea?: number;
   showDiscountedOnly = false;
@@ -73,7 +81,7 @@ export class Home implements OnInit, OnDestroy {
     this.subscription = this.housingService.listings$.subscribe((list) => {
       this.housingLocationList = list;
       // reapply any filter text the user has already entered
-      this.applyFilter(this.currentFilter);
+      this.applyFilter(this.currentFilter, this.currentBarrioFilter);
     });
     this.loadingSubscription = this.housingService.loaded$.subscribe((loaded) => {
       this.isLoading = !loaded;
@@ -81,9 +89,10 @@ export class Home implements OnInit, OnDestroy {
     });
   }
 
-  filterResults(text: string) {
+  filterResults(text: string, barrio: string) {
     this.currentFilter = text;
-    this.applyFilter(text);
+    this.currentBarrioFilter = barrio;
+    this.applyFilter(text, barrio);
   }
 
   sanitizeNumberInput(input: HTMLInputElement) {
@@ -103,8 +112,9 @@ export class Home implements OnInit, OnDestroy {
     return clamped || undefined;
   }
 
-  private applyFilter(text: string) {
+  private applyFilter(text: string, barrio: string) {
     const trimmed = (text || '').trim();
+    const trimmedBarrio = (barrio || '').trim();
     const minBedrooms = this.minBedrooms != null ? Math.max(0, this.minBedrooms) : undefined;
     const minArea = this.minArea != null ? Math.max(0, this.minArea) : undefined;
     let results = this.housingLocationList;
@@ -112,6 +122,12 @@ export class Home implements OnInit, OnDestroy {
       const lower = trimmed.toLowerCase();
       results = results.filter((listing) =>
         listing.titulo.toLowerCase().includes(lower) || listing.detalles.toLowerCase().includes(lower),
+      );
+    }
+    if (trimmedBarrio) {
+      const lowerBarrio = trimmedBarrio.toLowerCase();
+      results = results.filter((listing) =>
+        listing.barrio?.toLowerCase().includes(lowerBarrio),
       );
     }
     if (minBedrooms != null) {

@@ -38,7 +38,12 @@ export class HousingService {
             const areaMatch = details.match(/(\d+)\s*m\s*(?:\u00b2|2)/i);
             const areaM2 = areaMatch ? parseInt(areaMatch[1], 10) : undefined;
             const discounted = item.precio && /Ha bajado/i.test(item.precio);
-            return {id: idx, ...item, bedrooms, areaM2, discounted};
+            const tituloText = item.titulo || '';
+            const barrioParts = tituloText.split(' en ');
+            const afterEn = barrioParts.length > 1 ? barrioParts.pop() || '' : tituloText;
+            const commaParts = afterEn.split(',');
+            const barrio = commaParts.pop()?.trim();
+            return {id: idx, ...item, bedrooms, areaM2, discounted, barrio};
           });
         }),
       )

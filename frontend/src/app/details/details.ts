@@ -23,18 +23,20 @@ import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
       <section class="listing-external">
         <a [href]="housingLocation?.url" target="_blank" rel="noopener">Ver en Fotocasa</a>
       </section>
-      <section class="listing-apply" *ngIf="housingLocation">
-        <h2 class="section-heading">Contacta para más información</h2>
-        <form [formGroup]="applyForm" (submit)="submitApplication()">
-          <label for="first-name">Nombre</label>
-          <input id="first-name" type="text" formControlName="firstName" />
-          <label for="last-name">Apellidos</label>
-          <input id="last-name" type="text" formControlName="lastName" />
-          <label for="email">Email</label>
-          <input id="email" type="email" formControlName="email" />
-          <button type="submit" class="primary">Enviar</button>
-        </form>
-      </section>
+      @if (housingLocation) {
+        <section class="listing-apply">
+          <h2 class="section-heading">Contacta para más información</h2>
+          <form [formGroup]="applyForm" (submit)="submitApplication()">
+            <label for="first-name">Nombre</label>
+            <input id="first-name" type="text" formControlName="firstName" />
+            <label for="last-name">Apellidos</label>
+            <input id="last-name" type="text" formControlName="lastName" />
+            <label for="email">Email</label>
+            <input id="email" type="email" formControlName="email" />
+            <button type="submit" class="primary">Enviar</button>
+          </form>
+        </section>
+      }
     </article>
   `,
   styleUrls: ['./details.css'],
