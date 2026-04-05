@@ -1,0 +1,68 @@
+:host {
+  --content-padding: clamp(20px, 3vw, 36px);
+  display: block;
+  min-height: 100vh;
+}
+
+header.brand-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px var(--content-padding);
+  background: rgba(255, 255, 255, 0.76);
+  border-bottom: 1px solid rgba(228, 221, 211, 0.9);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(16px);
+}
+
+header.brand-name a {
+  width: 100%;
+  max-width: 1120px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+header .logo-text {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  transition: transform var(--transition-base), color var(--transition-base);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+header .logo-text::before {
+  content: '';
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+  box-shadow: 0 6px 12px rgba(31, 41, 55, 0.18);
+  animation: pulse 2.6s ease-in-out infinite;
+}
+
+header .logo-text:hover {
+  transform: translateY(-1px);
+  color: var(--secondary-color);
+}
+
+main {
+  flex: 1;
+  animation: fadeIn var(--transition-slow) ease-out;
+}
+
+.content {
+  max-width: 1120px;
+  margin: 0 auto;
+  width: 100%;
+  padding: var(--content-padding);
+}

@@ -1,0 +1,122 @@
+section:first-child {
+  background: var(--surface);
+  padding: 28px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  animation: fadeIn var(--transition-base) ease-out;
+}
+
+section form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  align-items: center;
+}
+
+input[type='text'],
+input[type='number'] {
+  border: 1px solid var(--border-color);
+  padding: 12px 16px;
+  border-radius: 12px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+  background: var(--surface-muted);
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+input[type='text']::placeholder,
+input[type='number']::placeholder {
+  color: var(--text-muted);
+}
+
+input[type='text']:focus,
+input[type='number']:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: var(--ring);
+  background: white;
+}
+
+.discount-checkbox {
+  font-size: 0.92rem;
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+  background: var(--surface-muted);
+  font-weight: 500;
+}
+
+.discount-checkbox:hover {
+  border-color: var(--primary-color);
+  background: white;
+  transform: translateY(-1px);
+}
+
+.discount-checkbox input {
+  margin: 0;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-color);
+}
+
+button {
+  justify-self: start;
+  padding: 12px 28px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.85rem;
+}
+
+.results {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  margin-top: 32px;
+  animation: slideInUp var(--transition-base) ease-out;
+}
+
+.no-results {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-top: 40px;
+  padding: 28px 20px;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--border-color);
+}
+
+.loading {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-top: 32px;
+  padding: 22px 18px;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@media (max-width: 820px) {
+  section:first-child {
+    padding: 22px;
+  }
+
+  section form {
+    grid-template-columns: 1fr;
+  }
+
+  button {
+    width: 100%;
+    justify-self: stretch;
+  }
+}
