@@ -22,4 +22,5 @@ export interface Listing {
   areaM2?: number;
   // extracted information
   discounted?: boolean;
+  barrio?: string;
 }

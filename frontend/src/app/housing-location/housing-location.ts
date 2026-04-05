@@ -11,6 +11,10 @@ import {RouterLink} from '@angular/router';
       </div>
       <div class="listing-info">
         <h2 class="listing-heading">{{ housingLocation().titulo }}</h2>
+        <p class="listing-location">
+          <img src="/public/location-pin.svg" alt="Location" width="16" height="16" style="vertical-align: middle;">
+          <span style="font-weight: 500;">{{ housingLocation().barrio }}</span>
+        </p>
         <p class="listing-details">{{ housingLocation().detalles }}</p>
         <a [routerLink]="['/details', housingLocation().id]">Ver detalles</a>
       </div>

@@ -27,19 +27,20 @@ export class HousingService {
   private loadListings() {
     this.loading = true;
     this.http
-      .get<Omit<Listing, 'id'>[]>('/assets/almeria_pisos.json')
+      .get<any>('/api/propiedades')
       .pipe(
-        map((data) =>
-          data.map((item, idx) => {
+        map((response) => {
+          const data = response._embedded ? response._embedded.propiedades : [];
+          return data.map((item: any, idx: number) => {
             const details = item.detalles || '';
             const bedMatch = details.match(/(\d+)\s*hab/i);
             const bedrooms = bedMatch ? parseInt(bedMatch[1], 10) : undefined;
             const areaMatch = details.match(/(\d+)\s*m\s*(?:\u00b2|2)/i);
             const areaM2 = areaMatch ? parseInt(areaMatch[1], 10) : undefined;
-            const discounted = /Ha bajado/i.test(item.precio);
+            const discounted = item.precio && /Ha bajado/i.test(item.precio);
             return {id: idx, ...item, bedrooms, areaM2, discounted};
-          }),
-        ),
+          });
+        }),
       )
       .subscribe({
         next: (list) => {
